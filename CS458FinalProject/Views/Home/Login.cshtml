@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Login</h2>
+                        <form method="post" action="@Url.Action("Authorize", "Home")">
+                            <input type="hidden" id="userType" name="userType" value="" />
+                            <div class="form-group">
+                                <button id="userbtn" type="button" class="btn btn-outline-primary" onclick="toggleButton('userbtn', 'User')">User</button>
+                                <button id="contractorbtn" type="button" class="btn btn-outline-primary" onclick="toggleButton('contractorbtn', 'Contractor')">Contractor</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleButton(buttonId, userType) {
+            var button = document.getElementById(buttonId);
+            // if user selects a button, set other button to deselect
+            var otherButtonId = (buttonId === 'userbtn') ? 'contractorbtn' : 'userbtn';
+            var otherButton = document.getElementById(otherButtonId);
+
+            // set proper buttons to selected and deselected
+            button.classList.toggle("active");
+            otherButton.classList.remove("active");
+
+            // use hidden value to set type of user and let controller access it
+            document.getElementById("userType").value = userType;
+        }
+    </script>
+</body>
+</html>
