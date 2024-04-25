@@ -11,28 +11,29 @@
     <div class="row">
         @if ((string)this.Session["Username"] == "" || this.Session["Username"] == null)
         {
+
             <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    Register as a User or Contractor here
-                </p>
-                <p><a class="btn btn-outline-dark" href="/Home/Register">Create an account &raquo;</a></p>
-
+                <div class="card card-body">
+                    <h2 id="gettingStartedTitle">Getting started</h2>
+                    <p>
+                        Register as a User or Contractor here
+                    </p>
+                    <p><a class="btn btn-outline-dark" href="/Home/Register">Create an account &raquo;</a></p>
+                </div>
             </section>
         }
 
         @if ((string)this.Session["UserType"] != null)
         {
             <section class="col-md-4" aria-labelledby="gettingStartedTitle">
+                <div class="card card-body">
+                    <h2 id="gettingStartedTitle">Create a project</h2>
+                    <p>
+                        Manage your projects
+                    </p>
 
-                <h2 id="gettingStartedTitle">Create a project</h2>
-                <p>
-                    Manage your projects
-                </p>
-
-                <p><a class="btn btn-outline-dark" href="/Projects">Go to Project Dashboard &raquo;</a></p>
-               
+                    <p><a class="btn btn-outline-dark" href="/Projects">Go to Project Dashboard &raquo;</a></p>
+                </div>
             </section> 
          }
         </div>
