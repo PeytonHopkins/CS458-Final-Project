@@ -21,16 +21,31 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if ((string)this.Session["Username"] != null)
+                    {
+                        <li>@Html.ActionLink("Projects", "Index", "Projects", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
                 </ul>
+                @if ((string)this.Session["Username"] != null)
+                {
+                    <div class="navbar-nav flex-grow-1 nav-link justify-content-end">Welcome @this.Session["Username"].ToString()!</div>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    </ul>
+
+                }
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container body-content h-100">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="align-bottom">
             <p>&copy; @DateTime.Now.Year - NaviProject</p>
         </footer>
     </div>

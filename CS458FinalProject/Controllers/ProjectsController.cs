@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -18,7 +20,23 @@ namespace CS458FinalProject.Controllers
         // GET: Projects
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            
+            if ((string)this.Session["UserType"] == "User")
+            {
+                int userId = (int)this.Session["UserID"];
+
+                var ids = db.Database.SqlQuery<int>("SELECT Project_Id FROM UserProjects WHERE User_Id = @userID", new SqlParameter("userID",userId)).ToList();
+                // get project ids associated with the userID
+                var projects = db.Projects.Where(r => ids.Contains(r.Id));
+                return View(projects);
+            }
+            else if ((string)this.Session["UserType"] == "Contractor")
+            {
+                var projects = db.Projects.ToList();
+                return View(projects);
+            }
+
+            return View();
         }
 
         // GET: Projects/Details/5
@@ -51,8 +69,21 @@ namespace CS458FinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                project.Status = "Awaiting Review";
+                project.CreationDate = DateTime.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();
+
+                object[] paramItems = new object[] 
+                { 
+                    new SqlParameter("projectID", project.Id),
+                    new SqlParameter("userID", (int)this.Session["UserID"])
+                };
+
+                db.Database.ExecuteSqlCommand("INSERT INTO UserProjects VALUES(@userID, @projectID)", paramItems);
+                db.SaveChanges();
+
+
                 return RedirectToAction("Index");
             }
 

@@ -53,7 +53,7 @@ namespace CS458FinalProject.Controllers
             {
                 db.Contractors.Add(contractor);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(contractor);
